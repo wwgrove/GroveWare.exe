@@ -9,11 +9,11 @@ import evidenceImg4 from './imports/image-4.png';
 
 function Navigation() {
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 p-6 flex justify-between items-start mix-blend-difference text-slate-500 text-[10px] tracking-[0.3em] uppercase font-mono">
-      <NavLink to="/" className="hover:text-white transition-colors cursor-crosshair">
+    <nav className="fixed top-0 left-0 w-full z-50 px-4 py-4 md:p-6 flex justify-between items-center mix-blend-difference text-slate-500 text-[9px] md:text-[10px] tracking-[0.2em] md:tracking-[0.3em] uppercase font-mono">
+      <NavLink to="/" className="hover:text-white transition-colors cursor-crosshair shrink-0">
         [ G R O V E W A R E ]
       </NavLink>
-      <div className="flex gap-12">
+      <div className="flex gap-4 md:gap-12">
         <NavLink to="/evidence" className={({isActive}) => isActive ? "text-white" : "hover:text-slate-300 transition-colors"}>[ EVIDENCE ]</NavLink>
         <NavLink to="/portal" className={({isActive}) => isActive ? "text-[#ff33cc]" : "hover:text-slate-300 transition-colors"}>[ PORTAL ]</NavLink>
       </div>
