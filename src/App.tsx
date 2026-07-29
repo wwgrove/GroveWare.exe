@@ -3,7 +3,11 @@ import { HashRouter, Routes, Route, NavLink } from 'react-router';
 import { Lock } from 'lucide-react';
 import backgroundVideo from './imports/KGDvF1UBHEry7.mp4';
 import file001 from './imports/file-001.mp4';
+import file002 from './imports/file-002.mp4';
+import evidenceImg0 from './imports/image.png';
+import evidenceImg1 from './imports/image-1.png';
 import evidenceImg2 from './imports/image-2.png';
+import evidenceImg3 from './imports/image-3.png';
 import evidenceImg4 from './imports/image-4.png';
 
 function CustomCursor({ visible }: { visible: boolean }) {
@@ -142,12 +146,12 @@ function EvidenceCard({ item, locked }: { item: EvidenceItem; locked?: boolean }
 
 function Evidence({ onVideoHover }: { onVideoHover: (active: boolean) => void }) {
   const level2: EvidenceItem[] = [
-    { img: evidenceImg2, label: 'FILE-007', text: 'Session redacted. Clearance required.' },
-    { img: evidenceImg4, portrait: true, label: 'FILE-008', text: 'Classified. Access denied.' },
+    { img: evidenceImg0, label: 'FILE-007', text: 'Session redacted. Clearance required.' },
+    { img: evidenceImg1, portrait: true, label: 'FILE-008', text: 'Classified. Access denied.' },
     { img: evidenceImg2, label: 'FILE-009', text: 'File sealed. Awaiting authorisation.' },
-    { img: evidenceImg4, label: 'FILE-010', text: 'Content restricted to verified members.' },
-    { img: evidenceImg2, portrait: true, label: 'FILE-011', text: 'Elevate your clearance to unlock.' },
-    { img: evidenceImg4, label: 'FILE-012', text: 'Undisclosed. Apply through the portal.' },
+    { img: evidenceImg3, label: 'FILE-010', text: 'Content restricted to verified members.' },
+    { img: evidenceImg4, portrait: true, label: 'FILE-011', text: 'Elevate your clearance to unlock.' },
+    { img: evidenceImg0, label: 'FILE-012', text: 'Undisclosed. Apply through the portal.' },
   ];
   return (
     <div className="bg-black min-h-screen pt-28 pb-32 px-6 md:px-12 lg:px-20">
@@ -161,7 +165,7 @@ function Evidence({ onVideoHover }: { onVideoHover: (active: boolean) => void })
           <VideoCard src={file001} label="FILE-001" text="Subject 04 — result confirmed. No explanation on record." onHover={onVideoHover} />
         </div>
         <div className="flex flex-col gap-3">
-          <VideoCard src={backgroundVideo} label="FILE-002" text="The margin was not human." onHover={onVideoHover} />
+          <VideoCard src={file002} label="FILE-002" text="The margin was not human." onHover={onVideoHover} />
           <VideoCard src={backgroundVideo} label="FILE-003" text="Flawless execution. Every input accounted for." onHover={onVideoHover} />
         </div>
       </div>
