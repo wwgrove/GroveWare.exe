@@ -153,7 +153,7 @@ function VideoCard({ src, portrait, label, text }: { src: string; portrait?: boo
 
   return (
     <div
-      className="relative overflow-hidden border border-slate-900 bg-slate-950 group cursor-none"
+      className="relative overflow-hidden border border-slate-900 bg-slate-950 group"
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
@@ -167,7 +167,7 @@ function VideoCard({ src, portrait, label, text }: { src: string; portrait?: boo
           playsInline
           disablePictureInPicture
           controlsList="nodownload nofullscreen noremoteplayback"
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover opacity-20 group-hover:opacity-100 transition-opacity duration-500"
           style={{ pointerEvents: 'none' }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
