@@ -2,6 +2,10 @@ import React, { useState } from 'react';
 import { HashRouter, Routes, Route, NavLink } from 'react-router';
 import { Lock } from 'lucide-react';
 import backgroundVideo from './imports/KGDvF1UBHEry7.mp4';
+import evidenceImg1 from './imports/image-1.png';
+import evidenceImg2 from './imports/image-2.png';
+import evidenceImg3 from './imports/image-3.png';
+import evidenceImg4 from './imports/image-4.png';
 
 function Navigation() {
   return (
@@ -137,12 +141,12 @@ function Home() {
 
 function Evidence() {
   const items = [
-    { height: "h-64", restricted: false, text: "Subject 04 - Peak APM reached. GroveWare integration at 99.8%." },
-    { height: "h-96", restricted: true, text: "Anomalous logic bypass. Target tracking absolute." },
-    { height: "h-72", restricted: false, text: "Flawless Execution. Zero dropped inputs detected." },
-    { height: "h-48", restricted: true, text: "Engine integrity compromised. Data link established." },
-    { height: "h-80", restricted: false, text: "The 1v5. Powered by GroveWare OS." },
-    { height: "h-64", restricted: true, text: "Packet interception complete. Sequence aligned." },
+    { img: evidenceImg1, restricted: false, text: "Subject 04 - Peak APM reached. GroveWare integration at 99.8%." },
+    { img: evidenceImg2, restricted: true, text: "Anomalous logic bypass. Target tracking absolute." },
+    { img: evidenceImg3, restricted: false, text: "Flawless Execution. Zero dropped inputs detected." },
+    { img: evidenceImg4, restricted: true, text: "Engine integrity compromised. Data link established." },
+    { img: evidenceImg1, restricted: false, text: "The 1v5. Powered by GroveWare OS." },
+    { img: evidenceImg3, restricted: true, text: "Packet interception complete. Sequence aligned." },
   ];
 
   return (
@@ -156,10 +160,9 @@ function Evidence() {
       <div className="columns-1 md:columns-2 lg:columns-3 gap-12 space-y-12">
         {items.map((item, i) => (
           <div key={i} className="break-inside-avoid relative group">
-            <div className={`w-full ${item.height} bg-slate-950 border border-slate-900 relative overflow-hidden`}>
-              {/* Minimalist glitchy patterns replacing real video thumbnails */}
-              <div className="absolute inset-0 opacity-[0.03] bg-[repeating-linear-gradient(45deg,transparent,transparent_2px,#fff_2px,#fff_4px)]" />
-              <div className="absolute inset-0 bg-gradient-to-tr from-black to-slate-900/50" />
+            <div className="w-full bg-slate-950 border border-slate-900 relative overflow-hidden">
+              <img src={item.img} alt="" className="w-full block object-cover" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
               
               {/* Pseudo audio visualizer or tech lines */}
               {!item.restricted && (
