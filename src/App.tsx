@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { HashRouter, Routes, Route, NavLink } from 'react-router';
 import { Lock } from 'lucide-react';
 import backgroundVideo from './imports/KGDvF1UBHEry7.mp4';
@@ -6,6 +6,30 @@ import evidenceImg1 from './imports/image-1.png';
 import evidenceImg2 from './imports/image-2.png';
 import evidenceImg3 from './imports/image-3.png';
 import evidenceImg4 from './imports/image-4.png';
+
+function CustomCursor() {
+  const cursorRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const move = (e: MouseEvent) => {
+      if (cursorRef.current) {
+        cursorRef.current.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`;
+      }
+    };
+    window.addEventListener('mousemove', move);
+    return () => window.removeEventListener('mousemove', move);
+  }, []);
+
+  return (
+    <div
+      ref={cursorRef}
+      className="fixed top-0 left-0 z-[9999] pointer-events-none"
+      style={{ willChange: 'transform' }}
+    >
+      <div className="w-4 h-4 -translate-x-1/2 -translate-y-1/2 border border-white/20 rounded-full" />
+    </div>
+  );
+}
 
 function Navigation() {
   return (
@@ -322,7 +346,8 @@ function Portal() {
 export default function App() {
   return (
     <HashRouter>
-      <div className="bg-black min-h-screen text-slate-300 selection:bg-[#ff33cc] selection:text-black">
+      <div className="bg-black min-h-screen text-slate-300 selection:bg-[#ff33cc] selection:text-black" style={{ cursor: 'none' }}>
+        <CustomCursor />
         <Navigation />
         <Routes>
           <Route path="/" element={<Home />} />
