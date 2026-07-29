@@ -81,7 +81,7 @@ function Home() {
               The Unfair Advantage.
             </h1>
             <p className="text-slate-500 text-xs md:text-sm tracking-[0.1em] max-w-lg mx-auto uppercase font-mono leading-relaxed">
-              Next-generation technology for those who dictate the pace. If you are competing at the highest level, you are already using it.
+              Some questions don't have answers. Some advantages don't have explanations. You either know, or you don't.
             </p>
           </div>
 
@@ -132,7 +132,7 @@ function Home() {
 
       <footer className="absolute bottom-6 w-full text-center">
         <p className="text-slate-600 text-[10px] tracking-[0.2em] uppercase font-mono">
-          © 2026 GroveWare World. All systems operational. Terms of Elevation.
+          © 2026 GroveWare. All rights reserved.
         </p>
       </footer>
     </div>
@@ -141,12 +141,12 @@ function Home() {
 
 function Evidence() {
   const items = [
-    { img: evidenceImg1, restricted: false, text: "Subject 04 - Peak APM reached. GroveWare integration at 99.8%." },
-    { img: evidenceImg2, restricted: true, text: "Anomalous logic bypass. Target tracking absolute." },
-    { img: evidenceImg3, restricted: false, text: "Flawless Execution. Zero dropped inputs detected." },
-    { img: evidenceImg4, restricted: true, text: "Engine integrity compromised. Data link established." },
-    { img: evidenceImg1, restricted: false, text: "The 1v5. Powered by GroveWare OS." },
-    { img: evidenceImg3, restricted: true, text: "Packet interception complete. Sequence aligned." },
+    { img: evidenceImg1, restricted: false, text: "Subject 04 — result confirmed. No explanation on record." },
+    { img: evidenceImg2, restricted: true, text: "Session redacted. Clearance required to continue." },
+    { img: evidenceImg3, restricted: false, text: "Flawless execution. The margin was not human." },
+    { img: evidenceImg4, restricted: true, text: "Classified. Access denied." },
+    { img: evidenceImg1, restricted: false, text: "They asked how. We stopped answering." },
+    { img: evidenceImg3, restricted: true, text: "File sealed. Awaiting authorisation." },
   ];
 
   return (
