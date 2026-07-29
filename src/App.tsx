@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { HashRouter, Routes, Route, NavLink } from 'react-router';
 import { Lock } from 'lucide-react';
 import backgroundVideo from './imports/KGDvF1UBHEry7.mp4';
@@ -141,6 +141,55 @@ function Home() {
 
 type EvidenceItem = { img: string; portrait?: boolean; label: string; text: string };
 
+function VideoCard({ src, portrait, label, text }: { src: string; portrait?: boolean; label: string; text: string }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  const handleMouseEnter = () => {
+    if (videoRef.current) videoRef.current.muted = false;
+  };
+  const handleMouseLeave = () => {
+    if (videoRef.current) videoRef.current.muted = true;
+  };
+
+  return (
+    <div
+      className="relative overflow-hidden border border-slate-900 bg-slate-950 group cursor-none"
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+    >
+      <div className={portrait ? 'aspect-[9/16]' : 'aspect-video'}>
+        <video
+          ref={videoRef}
+          src={src}
+          autoPlay
+          loop
+          muted
+          playsInline
+          disablePictureInPicture
+          controlsList="nodownload nofullscreen noremoteplayback"
+          className="w-full h-full object-cover"
+          style={{ pointerEvents: 'none' }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+
+        <span className="absolute top-3 left-3 text-[8px] font-mono text-slate-700 tracking-[0.2em] uppercase">{label}</span>
+
+        <div className="absolute top-3 right-3 flex items-center gap-1.5">
+          <div className="w-1.5 h-1.5 rounded-full bg-[#ff33cc] animate-ping" />
+          <span className="text-[8px] font-mono text-[#ff33cc]/70 uppercase tracking-widest">Live</span>
+        </div>
+
+        {/* Hover sound hint */}
+        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
+          <span className="text-[8px] font-mono text-white/30 uppercase tracking-[0.3em]">▶ Audio On</span>
+        </div>
+
+        <p className="absolute bottom-3 left-3 right-3 text-[9px] font-mono text-slate-500 uppercase tracking-[0.1em] leading-relaxed">{text}</p>
+      </div>
+    </div>
+  );
+}
+
 function EvidenceCard({ item, locked }: { item: EvidenceItem; locked?: boolean }) {
   return (
     <div className="relative overflow-hidden border border-slate-900 bg-slate-950 group">
@@ -210,10 +259,10 @@ function Evidence() {
         <span className="text-slate-700 text-[9px] font-mono uppercase tracking-[0.3em] shrink-0">Open Access</span>
       </div>
 
-      {/* Bento: hero landscape + two portraits | two landscape */}
+      {/* Bento: hero video + two stacked | three landscape */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
         <div className="md:col-span-2">
-          <EvidenceCard item={level1[0]} />
+          <VideoCard src={backgroundVideo} label="FILE-001" text="Subject 04 — result confirmed. No explanation on record." />
         </div>
         <div className="flex flex-col gap-3">
           <EvidenceCard item={{ ...level1[1], portrait: false }} />
