@@ -213,10 +213,6 @@ function VideoCard({ src, portrait, label, text }: { src: string; portrait?: boo
           </span>
         </div>
 
-        <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 pointer-events-none ${active ? 'opacity-0' : 'opacity-100'}`}>
-          <span className="text-[8px] font-mono text-white/20 uppercase tracking-[0.3em]">tap to activate</span>
-        </div>
-
         <p className="absolute bottom-3 left-3 right-3 text-[9px] font-mono text-slate-500 uppercase tracking-[0.1em] leading-relaxed">{text}</p>
       </div>
     </div>
