@@ -52,7 +52,7 @@ function Home() {
     if (!email) return;
     setIsLoading(true);
     try {
-      const scriptURL = 'https://script.google.com/macros/s/AKfycbxU4n683CVbKQS3BXzwqVmxw4PD_yq5aN0r_oT_AQhMbY6dKxMWhtsMS3ldjuSpWRpq/exec';
+      const scriptURL = 'https://script.google.com/macros/s/AKfycbz6KO3dtZNtcMEzyTgqG9AtCsWX-h3qssk6zIFh30JlXw340qqGk2NhPVmSxBobxK1z/exec';
       const formData = new URLSearchParams();
       formData.append('email', email);
       await fetch(scriptURL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData });
