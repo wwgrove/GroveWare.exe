@@ -66,39 +66,39 @@ function Home() {
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden bg-black text-white">
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <video autoPlay loop muted playsInline className="absolute min-w-full min-h-full object-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-30 mix-blend-screen">
+        <video autoPlay loop muted playsInline className="absolute min-w-full min-h-full object-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-55 mix-blend-screen">
           <source src={backgroundVideo} type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-black/30 to-black/70 pointer-events-none" />
       </div>
       <div className="flex-1 flex flex-col items-center justify-center px-4">
         <div className="max-w-4xl w-full text-center space-y-16">
           <div className="space-y-6">
             <h1 className="text-5xl md:text-8xl font-serif tracking-tight text-white cursor-default">The Unfair Advantage.</h1>
-            <p className="text-slate-500 text-xs md:text-sm tracking-[0.1em] max-w-lg mx-auto uppercase font-mono leading-relaxed">Some questions don't have answers. Some advantages don't have explanations. You either know, or you don't.</p>
+            <p className="text-slate-400 text-xs md:text-sm tracking-[0.1em] max-w-lg mx-auto uppercase font-mono leading-relaxed">Some questions don't have answers. Some advantages don't have explanations. You either know, or you don't.</p>
           </div>
           {submitted ? (
             <div className="max-w-md mx-auto space-y-6 relative z-10 w-full mt-12 bg-black/20 p-8 backdrop-blur-md border border-slate-900/50">
               <div className="text-[#ff33cc] text-xs font-mono tracking-[0.3em] uppercase animate-pulse mb-6">Link Dispatched</div>
-              <p className="text-slate-400 text-[10px] tracking-[0.2em] font-mono leading-relaxed uppercase">A secure registration link has been routed to<br/><span className="text-white mt-4 block text-xs tracking-widest">{email}</span></p>
-              <div className="mt-8 pt-6 border-t border-slate-800"><p className="text-slate-600 text-[9px] tracking-[0.1em] font-mono uppercase">Await further instructions.</p></div>
+              <p className="text-slate-300 text-[10px] tracking-[0.2em] font-mono leading-relaxed uppercase">A secure registration link has been routed to<br/><span className="text-white mt-4 block text-xs tracking-widest">{email}</span></p>
+              <div className="mt-8 pt-6 border-t border-slate-800"><p className="text-slate-500 text-[9px] tracking-[0.1em] font-mono uppercase">Await further instructions.</p></div>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-6 relative z-10 w-full mt-12 bg-black/20 p-8 backdrop-blur-md border border-slate-900/50">
-              <h2 className="text-slate-400 text-[10px] tracking-[0.3em] uppercase font-mono text-center mb-8">Request Secure Link</h2>
+            <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-6 relative z-10 w-full mt-12 bg-black/20 p-8 backdrop-blur-md border border-slate-700/60">
+              <h2 className="text-slate-300 text-[10px] tracking-[0.3em] uppercase font-mono text-center mb-8">Request Secure Link</h2>
               <div className="space-y-4">
                 <div className="relative group">
-                  <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ENTER EMAIL ADDRESS" className="w-full bg-transparent border-b border-slate-800 py-3 px-2 text-center text-white font-mono tracking-widest text-xs focus:outline-none focus:border-[#ff33cc] transition-colors placeholder:text-slate-700 uppercase" />
+                  <input type="email" required value={email} onChange={(e) => setEmail(e.target.value)} placeholder="ENTER EMAIL ADDRESS" className="w-full bg-transparent border-b border-slate-600 py-3 px-2 text-center text-white font-mono tracking-widest text-xs focus:outline-none focus:border-[#ff33cc] transition-colors placeholder:text-slate-500 uppercase" />
                   <div className="absolute bottom-0 left-0 h-[1px] bg-[#ff33cc] w-0 group-focus-within:w-full transition-all duration-700 ease-in-out" />
                 </div>
               </div>
-              <button type="submit" disabled={isLoading} className="w-full mt-8 bg-transparent border border-slate-800 text-slate-300 font-mono text-xs tracking-widest uppercase py-4 hover:bg-[#ff33cc] hover:text-black hover:border-[#ff33cc] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">{isLoading ? 'Transmitting...' : 'Transmit Request'}</button>
+              <button type="submit" disabled={isLoading} className="w-full mt-8 bg-transparent border border-slate-600 text-slate-200 font-mono text-xs tracking-widest uppercase py-4 hover:bg-[#ff33cc] hover:text-black hover:border-[#ff33cc] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">{isLoading ? 'Transmitting...' : 'Transmit Request'}</button>
             </form>
           )}
         </div>
       </div>
       <footer className="absolute bottom-6 w-full text-center">
-        <p className="text-slate-600 text-[10px] tracking-[0.2em] uppercase font-mono">© 2026 GroveWare. All rights reserved.</p>
+        <p className="text-slate-500 text-[10px] tracking-[0.2em] uppercase font-mono">© 2026 GroveWare. All rights reserved.</p>
       </footer>
     </div>
   );
