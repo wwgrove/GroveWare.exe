@@ -139,56 +139,41 @@ function Home() {
   );
 }
 
-type EvidenceItem = {
-  img: string;
-  aspect: 'landscape' | 'portrait';
-  label: string;
-  text: string;
-};
+type EvidenceItem = { img: string; portrait?: boolean; label: string; text: string };
 
-function EvidenceCard({ item, level }: { item: EvidenceItem; level: 1 | 2 }) {
-  const locked = level === 2;
-  const aspectClass = item.aspect === 'portrait' ? 'aspect-[9/16]' : 'aspect-video';
-
+function EvidenceCard({ item, locked }: { item: EvidenceItem; locked?: boolean }) {
   return (
-    <div className="break-inside-avoid relative group mb-8">
-      <div className={`w-full ${aspectClass} bg-slate-950 border border-slate-900 relative overflow-hidden`}>
-        <img src={item.img} alt="" className="w-full h-full object-cover" style={locked ? { filter: 'blur(12px)', transform: 'scale(1.05)' } : {}} />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+    <div className="relative overflow-hidden border border-slate-900 bg-slate-950 group">
+      <div className={item.portrait ? 'aspect-[9/16]' : 'aspect-video'}>
+        <img
+          src={item.img}
+          alt=""
+          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+          style={locked ? { filter: 'blur(14px)', transform: 'scale(1.06)' } : {}}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+
+        <span className="absolute top-3 left-3 text-[8px] font-mono text-slate-700 tracking-[0.2em] uppercase">
+          {item.label}
+        </span>
 
         {!locked && (
-          <>
-            <div className="absolute bottom-4 left-4 flex gap-1 items-end h-8 opacity-30">
-              {[1, 0.5, 0.75, 0.25, 0.6].map((h, i) => (
-                <div key={i} className="w-1 bg-[#ff33cc] animate-pulse" style={{ height: `${h * 100}%`, animationDelay: `${i * 0.12}s` }} />
-              ))}
-            </div>
-            <div className="absolute top-4 right-4 flex items-center gap-2">
-              <div className="w-1.5 h-1.5 rounded-full bg-[#ff33cc] animate-ping" />
-              <span className="text-[9px] font-mono text-[#ff33cc] opacity-60 uppercase tracking-widest">Live</span>
-            </div>
-            <div className="absolute bottom-4 right-4 text-[8px] font-mono text-slate-500 uppercase tracking-widest">
-              LVL 1
-            </div>
-          </>
+          <div className="absolute top-3 right-3 flex items-center gap-1.5">
+            <div className="w-1.5 h-1.5 rounded-full bg-[#ff33cc] animate-ping" />
+            <span className="text-[8px] font-mono text-[#ff33cc]/70 uppercase tracking-widest">Live</span>
+          </div>
         )}
 
         {locked && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <Lock className="w-5 h-5 text-slate-400 mb-3" />
-            <span className="text-[9px] font-mono tracking-[0.25em] text-slate-400 uppercase text-center px-6 leading-relaxed">
-              Level 2 Clearance<br />
-              <span className="text-slate-600">Required</span>
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+            <Lock className="w-4 h-4 text-slate-500" />
+            <span className="text-[8px] font-mono text-slate-500 uppercase tracking-[0.2em] text-center leading-loose">
+              Level 2 Clearance<br/>Required
             </span>
           </div>
         )}
 
-        <div className="absolute top-4 left-4 text-[8px] font-mono text-slate-600 uppercase tracking-widest">
-          {item.label}
-        </div>
-      </div>
-      <div className="mt-3 border-l border-slate-800 pl-3 py-0.5">
-        <p className="text-[10px] font-mono text-slate-600 tracking-[0.1em] uppercase leading-relaxed">
+        <p className="absolute bottom-3 left-3 right-3 text-[9px] font-mono text-slate-500 uppercase tracking-[0.1em] leading-relaxed">
           {item.text}
         </p>
       </div>
@@ -198,42 +183,69 @@ function EvidenceCard({ item, level }: { item: EvidenceItem; level: 1 | 2 }) {
 
 function Evidence() {
   const level1: EvidenceItem[] = [
-    { img: evidenceImg1, aspect: 'landscape', label: 'FILE-001', text: 'Subject 04 — result confirmed. No explanation on record.' },
-    { img: evidenceImg3, aspect: 'portrait',  label: 'FILE-002', text: 'The margin was not human.' },
-    { img: evidenceImg2, aspect: 'landscape', label: 'FILE-003', text: 'Flawless execution. Every input accounted for.' },
-    { img: evidenceImg4, aspect: 'portrait',  label: 'FILE-004', text: 'They asked how. We stopped answering.' },
-    { img: evidenceImg1, aspect: 'landscape', label: 'FILE-005', text: 'Sequence complete. Outcome expected.' },
-    { img: evidenceImg3, aspect: 'landscape', label: 'FILE-006', text: 'On record. Uncontested.' },
+    { img: evidenceImg1, label: 'FILE-001', text: 'Subject 04 — result confirmed. No explanation on record.' },
+    { img: evidenceImg3, portrait: true, label: 'FILE-002', text: 'The margin was not human.' },
+    { img: evidenceImg2, label: 'FILE-003', text: 'Flawless execution. Every input accounted for.' },
+    { img: evidenceImg4, label: 'FILE-004', text: 'They asked how. We stopped answering.' },
+    { img: evidenceImg3, portrait: true, label: 'FILE-005', text: 'Sequence complete. Outcome expected.' },
+    { img: evidenceImg1, label: 'FILE-006', text: 'On record. Uncontested.' },
   ];
 
   const level2: EvidenceItem[] = [
-    { img: evidenceImg2, aspect: 'portrait',  label: 'FILE-007', text: 'Session redacted. Clearance required.' },
-    { img: evidenceImg4, aspect: 'landscape', label: 'FILE-008', text: 'Classified. Access denied.' },
-    { img: evidenceImg1, aspect: 'portrait',  label: 'FILE-009', text: 'File sealed. Awaiting authorisation.' },
-    { img: evidenceImg2, aspect: 'landscape', label: 'FILE-010', text: 'Content restricted to verified members.' },
-    { img: evidenceImg4, aspect: 'portrait',  label: 'FILE-011', text: 'Elevate your clearance to unlock.' },
-    { img: evidenceImg3, aspect: 'landscape', label: 'FILE-012', text: 'Undisclosed. Apply through the portal.' },
+    { img: evidenceImg2, label: 'FILE-007', text: 'Session redacted. Clearance required.' },
+    { img: evidenceImg4, portrait: true, label: 'FILE-008', text: 'Classified. Access denied.' },
+    { img: evidenceImg1, label: 'FILE-009', text: 'File sealed. Awaiting authorisation.' },
+    { img: evidenceImg3, label: 'FILE-010', text: 'Content restricted to verified members.' },
+    { img: evidenceImg2, portrait: true, label: 'FILE-011', text: 'Elevate your clearance to unlock.' },
+    { img: evidenceImg4, label: 'FILE-012', text: 'Undisclosed. Apply through the portal.' },
   ];
 
   return (
-    <div className="bg-black pt-28 pb-24 px-6 md:px-16">
+    <div className="bg-black min-h-screen pt-28 pb-32 px-6 md:px-12 lg:px-20">
 
-      <div className="mb-12 flex items-center gap-6">
-        <span className="text-slate-700 text-[9px] font-mono uppercase tracking-[0.3em]">— Clearance Level 1</span>
-        <div className="flex-1 h-[1px] bg-slate-900" />
-        <span className="text-slate-700 text-[9px] font-mono uppercase tracking-[0.3em]">Open Access</span>
-      </div>
-      <div className="columns-1 md:columns-2 lg:columns-3 gap-8">
-        {level1.map((item, i) => <EvidenceCard key={i} item={item} level={1} />)}
+      {/* Level 1 */}
+      <div className="flex items-center gap-4 mb-10">
+        <span className="text-slate-700 text-[9px] font-mono uppercase tracking-[0.3em] shrink-0">Level 1</span>
+        <div className="flex-1 h-px bg-slate-900" />
+        <span className="text-slate-700 text-[9px] font-mono uppercase tracking-[0.3em] shrink-0">Open Access</span>
       </div>
 
-      <div className="mt-20 mb-12 flex items-center gap-6">
-        <span className="text-[#ff33cc]/40 text-[9px] font-mono uppercase tracking-[0.3em]">— Clearance Level 2</span>
-        <div className="flex-1 h-[1px] bg-slate-900" />
-        <span className="text-[#ff33cc]/40 text-[9px] font-mono uppercase tracking-[0.3em]">Restricted</span>
+      {/* Bento: hero landscape + two portraits | two landscape */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+        <div className="md:col-span-2">
+          <EvidenceCard item={level1[0]} />
+        </div>
+        <div className="flex flex-col gap-3">
+          <EvidenceCard item={{ ...level1[1], portrait: false }} />
+          <EvidenceCard item={{ ...level1[2], portrait: false }} />
+        </div>
       </div>
-      <div className="columns-1 md:columns-2 lg:columns-3 gap-8">
-        {level2.map((item, i) => <EvidenceCard key={i} item={item} level={2} />)}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <EvidenceCard item={level1[3]} />
+        <EvidenceCard item={level1[4]} />
+        <EvidenceCard item={level1[5]} />
+      </div>
+
+      {/* Level 2 */}
+      <div className="flex items-center gap-4 mt-20 mb-10">
+        <span className="text-[#ff33cc]/30 text-[9px] font-mono uppercase tracking-[0.3em] shrink-0">Level 2</span>
+        <div className="flex-1 h-px bg-slate-900" />
+        <span className="text-[#ff33cc]/30 text-[9px] font-mono uppercase tracking-[0.3em] shrink-0">Restricted</span>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
+        <EvidenceCard item={level2[0]} locked />
+        <div className="md:col-span-2">
+          <EvidenceCard item={level2[1]} locked />
+        </div>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <EvidenceCard item={level2[2]} locked />
+        <EvidenceCard item={level2[3]} locked />
+        <EvidenceCard item={level2[4]} locked />
+      </div>
+      <div className="grid grid-cols-1 mt-3">
+        <EvidenceCard item={level2[5]} locked />
       </div>
 
     </div>
