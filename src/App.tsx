@@ -259,20 +259,19 @@ function Evidence() {
         <span className="text-slate-700 text-[9px] font-mono uppercase tracking-[0.3em] shrink-0">Open Access</span>
       </div>
 
-      {/* Bento: hero video + two stacked | three landscape */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
         <div className="md:col-span-2">
           <VideoCard src={backgroundVideo} label="FILE-001" text="Subject 04 — result confirmed. No explanation on record." />
         </div>
         <div className="flex flex-col gap-3">
-          <EvidenceCard item={{ ...level1[1], portrait: false }} />
-          <EvidenceCard item={{ ...level1[2], portrait: false }} />
+          <VideoCard src={backgroundVideo} label="FILE-002" text="The margin was not human." />
+          <VideoCard src={backgroundVideo} label="FILE-003" text="Flawless execution. Every input accounted for." />
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <EvidenceCard item={level1[3]} />
-        <EvidenceCard item={level1[4]} />
-        <EvidenceCard item={level1[5]} />
+        <VideoCard src={backgroundVideo} label="FILE-004" text="They asked how. We stopped answering." />
+        <VideoCard src={backgroundVideo} label="FILE-005" text="Sequence complete. Outcome expected." />
+        <VideoCard src={backgroundVideo} label="FILE-006" text="On record. Uncontested." />
       </div>
 
       {/* Level 2 */}
