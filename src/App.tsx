@@ -71,7 +71,7 @@ function Home() {
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black pointer-events-none" />
       </div>
-      <div className="flex-1 flex flex-col items-center justify-center px-4">
+      <div className="relative z-10 flex-1 flex flex-col items-center justify-center px-4">
         <div className="max-w-4xl w-full text-center space-y-16">
           <div className="space-y-6">
             <h1 className="text-5xl md:text-8xl font-serif tracking-tight text-white cursor-default">The Unfair Advantage.</h1>
