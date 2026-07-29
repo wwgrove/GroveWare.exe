@@ -233,18 +233,12 @@ function Evidence() {
         <span className="text-[#ff33cc]/30 text-[9px] font-mono uppercase tracking-[0.3em] shrink-0">Restricted</span>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
-        <EvidenceCard item={level2[0]} locked />
-        <div className="md:col-span-2">
-          <EvidenceCard item={level2[1]} locked />
-        </div>
-      </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+        <EvidenceCard item={level2[0]} locked />
+        <EvidenceCard item={level2[1]} locked />
         <EvidenceCard item={level2[2]} locked />
         <EvidenceCard item={level2[3]} locked />
         <EvidenceCard item={level2[4]} locked />
-      </div>
-      <div className="grid grid-cols-1 mt-3">
         <EvidenceCard item={level2[5]} locked />
       </div>
 
