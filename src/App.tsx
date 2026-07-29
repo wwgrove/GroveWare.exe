@@ -167,19 +167,27 @@ type EvidenceItem = { img: string; portrait?: boolean; label: string; text: stri
 
 function VideoCard({ src, portrait, label, text }: { src: string; portrait?: boolean; label: string; text: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const [active, setActive] = useState(false);
 
-  const handleMouseEnter = () => {
+  const unmute = () => {
     if (videoRef.current) videoRef.current.muted = false;
+    setActive(true);
   };
-  const handleMouseLeave = () => {
+  const mute = () => {
     if (videoRef.current) videoRef.current.muted = true;
+    setActive(false);
+  };
+  const handleTap = (e: React.TouchEvent) => {
+    e.preventDefault();
+    active ? mute() : unmute();
   };
 
   return (
     <div
-      className="relative overflow-hidden border border-slate-900 bg-slate-950 group"
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
+      className="relative overflow-hidden border border-slate-900 bg-slate-950"
+      onMouseEnter={unmute}
+      onMouseLeave={mute}
+      onTouchStart={handleTap}
     >
       <div className={portrait ? 'aspect-[9/16]' : 'aspect-video'}>
         <video
@@ -191,7 +199,7 @@ function VideoCard({ src, portrait, label, text }: { src: string; portrait?: boo
           playsInline
           disablePictureInPicture
           controlsList="nodownload nofullscreen noremoteplayback"
-          className="w-full h-full object-cover opacity-20 group-hover:opacity-100 transition-opacity duration-500"
+          className={`w-full h-full object-cover transition-opacity duration-500 ${active ? 'opacity-100' : 'opacity-20'}`}
           style={{ pointerEvents: 'none' }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
@@ -200,12 +208,13 @@ function VideoCard({ src, portrait, label, text }: { src: string; portrait?: boo
 
         <div className="absolute top-3 right-3 flex items-center gap-1.5">
           <div className="w-1.5 h-1.5 rounded-full bg-[#ff33cc] animate-ping" />
-          <span className="text-[8px] font-mono text-[#ff33cc]/70 uppercase tracking-widest">Live</span>
+          <span className="text-[8px] font-mono text-[#ff33cc]/70 uppercase tracking-widest">
+            {active ? 'Audio On' : 'Live'}
+          </span>
         </div>
 
-        {/* Hover sound hint */}
-        <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none">
-          <span className="text-[8px] font-mono text-white/30 uppercase tracking-[0.3em]">▶ Audio On</span>
+        <div className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 pointer-events-none ${active ? 'opacity-0' : 'opacity-100'}`}>
+          <span className="text-[8px] font-mono text-white/20 uppercase tracking-[0.3em]">tap to activate</span>
         </div>
 
         <p className="absolute bottom-3 left-3 right-3 text-[9px] font-mono text-slate-500 uppercase tracking-[0.1em] leading-relaxed">{text}</p>
