@@ -1,13 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { HashRouter, Routes, Route, NavLink } from 'react-router';
 import { Lock } from 'lucide-react';
 import backgroundVideo from './imports/KGDvF1UBHEry7.mp4';
-import evidenceImg1 from './imports/image-1.png';
 import evidenceImg2 from './imports/image-2.png';
-import evidenceImg3 from './imports/image-3.png';
 import evidenceImg4 from './imports/image-4.png';
 
-function CustomCursor() {
+// --- Custom cursor (only visible when over a VideoCard) ---
+function CustomCursor({ visible }: { visible: boolean }) {
   const cursorRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,28 +22,30 @@ function CustomCursor() {
   return (
     <div
       ref={cursorRef}
-      className="fixed top-0 left-0 z-[9999] pointer-events-none"
-      style={{ willChange: 'transform' }}
+      className="fixed top-0 left-0 z-[9999] pointer-events-none transition-opacity duration-200"
+      style={{ willChange: 'transform', opacity: visible ? 1 : 0 }}
     >
       <div className="w-4 h-4 -translate-x-1/2 -translate-y-1/2 border border-white/20 rounded-full" />
     </div>
   );
 }
 
+// --- Navigation ---
 function Navigation() {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 px-4 py-4 md:p-6 flex justify-between items-center mix-blend-difference text-slate-500 text-[9px] md:text-[10px] tracking-[0.2em] md:tracking-[0.3em] uppercase font-mono">
-      <NavLink to="/" className="hover:text-white transition-colors cursor-crosshair shrink-0">
+      <NavLink to="/" className="hover:text-white transition-colors shrink-0">
         [ G R O V E W A R E ]
       </NavLink>
       <div className="flex gap-4 md:gap-12">
-        <NavLink to="/evidence" className={({isActive}) => isActive ? "text-white" : "hover:text-slate-300 transition-colors"}>[ EVIDENCE ]</NavLink>
-        <NavLink to="/portal" className={({isActive}) => isActive ? "text-[#ff33cc]" : "hover:text-slate-300 transition-colors"}>[ PORTAL ]</NavLink>
+        <NavLink to="/evidence" className={({ isActive }) => isActive ? "text-white" : "hover:text-slate-300 transition-colors"}>[ EVIDENCE ]</NavLink>
+        <NavLink to="/portal" className={({ isActive }) => isActive ? "text-[#ff33cc]" : "hover:text-slate-300 transition-colors"}>[ PORTAL ]</NavLink>
       </div>
     </nav>
   );
 }
 
+// --- Home ---
 function Home() {
   const [email, setEmail] = useState('');
   const [submitted, setSubmitted] = useState(false);
@@ -53,29 +54,14 @@ function Home() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
-
     setIsLoading(true);
-
     try {
-      // Replace with your published Google Apps Script Web App URL
       const scriptURL = 'https://script.google.com/macros/s/AKfycbxU4n683CVbKQS3BXzwqVmxw4PD_yq5aN0r_oT_AQhMbY6dKxMWhtsMS3ldjuSpWRpq/exec';
-      
       const formData = new URLSearchParams();
       formData.append('email', email);
-
-      await fetch(scriptURL, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: formData
-      });
-
-      // When using 'no-cors', the response is "opaque" (status is 0, ok is false).
-      // We assume it succeeded if the fetch promise resolved.
+      await fetch(scriptURL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: formData });
       setSubmitted(true);
-    } catch (error) {
+    } catch {
       alert("NETWORK ERROR. SECURE LINK FAILED.");
     } finally {
       setIsLoading(false);
@@ -84,20 +70,13 @@ function Home() {
 
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden bg-black text-white">
-      {/* Background abstract element for extreme minimalism */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <video 
-          autoPlay 
-          loop 
-          muted 
-          playsInline 
-          className="absolute min-w-full min-h-full object-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-30 mix-blend-screen"
-        >
+        <video autoPlay loop muted playsInline className="absolute min-w-full min-h-full object-cover top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-30 mix-blend-screen">
           <source src={backgroundVideo} type="video/mp4" />
         </video>
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/60 to-black pointer-events-none" />
       </div>
-      
+
       <div className="flex-1 flex flex-col items-center justify-center px-4">
         <div className="max-w-4xl w-full text-center space-y-16">
           <div className="space-y-6">
@@ -111,42 +90,30 @@ function Home() {
 
           {submitted ? (
             <div className="max-w-md mx-auto space-y-6 relative z-10 w-full mt-12 bg-black/20 p-8 backdrop-blur-md border border-slate-900/50">
-              <div className="text-[#ff33cc] text-xs font-mono tracking-[0.3em] uppercase animate-pulse mb-6">
-                Link Dispatched
-              </div>
+              <div className="text-[#ff33cc] text-xs font-mono tracking-[0.3em] uppercase animate-pulse mb-6">Link Dispatched</div>
               <p className="text-slate-400 text-[10px] tracking-[0.2em] font-mono leading-relaxed uppercase">
                 A secure registration link has been routed to<br/>
                 <span className="text-white mt-4 block text-xs tracking-widest">{email}</span>
               </p>
               <div className="mt-8 pt-6 border-t border-slate-800">
-                 <p className="text-slate-600 text-[9px] tracking-[0.1em] font-mono uppercase">
-                   Await further instructions.
-                 </p>
+                <p className="text-slate-600 text-[9px] tracking-[0.1em] font-mono uppercase">Await further instructions.</p>
               </div>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="max-w-md mx-auto space-y-6 relative z-10 w-full mt-12 bg-black/20 p-8 backdrop-blur-md border border-slate-900/50">
-              <h2 className="text-slate-400 text-[10px] tracking-[0.3em] uppercase font-mono text-center mb-8">
-                Request Secure Link
-              </h2>
+              <h2 className="text-slate-400 text-[10px] tracking-[0.3em] uppercase font-mono text-center mb-8">Request Secure Link</h2>
               <div className="space-y-4">
                 <div className="relative group">
-                  <input 
-                    type="email" 
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="ENTER EMAIL ADDRESS" 
+                  <input
+                    type="email" required value={email} onChange={(e) => setEmail(e.target.value)}
+                    placeholder="ENTER EMAIL ADDRESS"
                     className="w-full bg-transparent border-b border-slate-800 py-3 px-2 text-center text-white font-mono tracking-widest text-xs focus:outline-none focus:border-[#ff33cc] transition-colors placeholder:text-slate-700 uppercase"
                   />
                   <div className="absolute bottom-0 left-0 h-[1px] bg-[#ff33cc] w-0 group-focus-within:w-full transition-all duration-700 ease-in-out" />
                 </div>
               </div>
-              <button 
-                type="submit" 
-                disabled={isLoading}
-                className="w-full mt-8 bg-transparent border border-slate-800 text-slate-300 font-mono text-xs tracking-widest uppercase py-4 hover:bg-[#ff33cc] hover:text-black hover:border-[#ff33cc] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
+              <button type="submit" disabled={isLoading}
+                className="w-full mt-8 bg-transparent border border-slate-800 text-slate-300 font-mono text-xs tracking-widest uppercase py-4 hover:bg-[#ff33cc] hover:text-black hover:border-[#ff33cc] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed">
                 {isLoading ? 'Transmitting...' : 'Transmit Request'}
               </button>
             </form>
@@ -155,27 +122,31 @@ function Home() {
       </div>
 
       <footer className="absolute bottom-6 w-full text-center">
-        <p className="text-slate-600 text-[10px] tracking-[0.2em] uppercase font-mono">
-          © 2026 GroveWare. All rights reserved.
-        </p>
+        <p className="text-slate-600 text-[10px] tracking-[0.2em] uppercase font-mono">© 2026 GroveWare. All rights reserved.</p>
       </footer>
     </div>
   );
 }
 
+// --- Evidence ---
 type EvidenceItem = { img: string; portrait?: boolean; label: string; text: string };
 
-function VideoCard({ src, portrait, label, text }: { src: string; portrait?: boolean; label: string; text: string }) {
+function VideoCard({ src, portrait, label, text, onHover }: {
+  src: string; portrait?: boolean; label: string; text: string;
+  onHover: (active: boolean) => void;
+}) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [active, setActive] = useState(false);
 
   const unmute = () => {
     if (videoRef.current) videoRef.current.muted = false;
     setActive(true);
+    onHover(true);
   };
   const mute = () => {
     if (videoRef.current) videoRef.current.muted = true;
     setActive(false);
+    onHover(false);
   };
   const handleTap = (e: React.TouchEvent) => {
     e.preventDefault();
@@ -185,34 +156,24 @@ function VideoCard({ src, portrait, label, text }: { src: string; portrait?: boo
   return (
     <div
       className="relative overflow-hidden border border-slate-900 bg-slate-950"
+      style={{ cursor: 'none' }}
       onMouseEnter={unmute}
       onMouseLeave={mute}
       onTouchStart={handleTap}
     >
       <div className={portrait ? 'aspect-[9/16]' : 'aspect-video'}>
         <video
-          ref={videoRef}
-          src={src}
-          autoPlay
-          loop
-          muted
-          playsInline
-          disablePictureInPicture
-          controlsList="nodownload nofullscreen noremoteplayback"
+          ref={videoRef} src={src} autoPlay loop muted playsInline
+          disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback"
           className={`w-full h-full object-cover transition-opacity duration-500 ${active ? 'opacity-100' : 'opacity-20'}`}
           style={{ pointerEvents: 'none' }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-
         <span className="absolute top-3 left-3 text-[8px] font-mono text-slate-700 tracking-[0.2em] uppercase">{label}</span>
-
         <div className="absolute top-3 right-3 flex items-center gap-1.5">
           <div className="w-1.5 h-1.5 rounded-full bg-[#ff33cc] animate-ping" />
-          <span className="text-[8px] font-mono text-[#ff33cc]/70 uppercase tracking-widest">
-            {active ? 'Audio On' : 'Live'}
-          </span>
+          <span className="text-[8px] font-mono text-[#ff33cc]/70 uppercase tracking-widest">{active ? 'Audio On' : 'Live'}</span>
         </div>
-
         <p className="absolute bottom-3 left-3 right-3 text-[9px] font-mono text-slate-500 uppercase tracking-[0.1em] leading-relaxed">{text}</p>
       </div>
     </div>
@@ -224,24 +185,12 @@ function EvidenceCard({ item, locked }: { item: EvidenceItem; locked?: boolean }
     <div className="relative overflow-hidden border border-slate-900 bg-slate-950 group">
       <div className={item.portrait ? 'aspect-[9/16]' : 'aspect-video'}>
         <img
-          src={item.img}
-          alt=""
+          src={item.img} alt=""
           className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
           style={locked ? { filter: 'blur(14px)', transform: 'scale(1.06)' } : {}}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-
-        <span className="absolute top-3 left-3 text-[8px] font-mono text-slate-700 tracking-[0.2em] uppercase">
-          {item.label}
-        </span>
-
-        {!locked && (
-          <div className="absolute top-3 right-3 flex items-center gap-1.5">
-            <div className="w-1.5 h-1.5 rounded-full bg-[#ff33cc] animate-ping" />
-            <span className="text-[8px] font-mono text-[#ff33cc]/70 uppercase tracking-widest">Live</span>
-          </div>
-        )}
-
+        <span className="absolute top-3 left-3 text-[8px] font-mono text-slate-700 tracking-[0.2em] uppercase">{item.label}</span>
         {locked && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
             <Lock className="w-4 h-4 text-slate-500" />
@@ -250,30 +199,18 @@ function EvidenceCard({ item, locked }: { item: EvidenceItem; locked?: boolean }
             </span>
           </div>
         )}
-
-        <p className="absolute bottom-3 left-3 right-3 text-[9px] font-mono text-slate-500 uppercase tracking-[0.1em] leading-relaxed">
-          {item.text}
-        </p>
+        <p className="absolute bottom-3 left-3 right-3 text-[9px] font-mono text-slate-500 uppercase tracking-[0.1em] leading-relaxed">{item.text}</p>
       </div>
     </div>
   );
 }
 
-function Evidence() {
-  const level1: EvidenceItem[] = [
-    { img: evidenceImg1, label: 'FILE-001', text: 'Subject 04 — result confirmed. No explanation on record.' },
-    { img: evidenceImg3, portrait: true, label: 'FILE-002', text: 'The margin was not human.' },
-    { img: evidenceImg2, label: 'FILE-003', text: 'Flawless execution. Every input accounted for.' },
-    { img: evidenceImg4, label: 'FILE-004', text: 'They asked how. We stopped answering.' },
-    { img: evidenceImg3, portrait: true, label: 'FILE-005', text: 'Sequence complete. Outcome expected.' },
-    { img: evidenceImg1, label: 'FILE-006', text: 'On record. Uncontested.' },
-  ];
-
+function Evidence({ onVideoHover }: { onVideoHover: (active: boolean) => void }) {
   const level2: EvidenceItem[] = [
     { img: evidenceImg2, label: 'FILE-007', text: 'Session redacted. Clearance required.' },
     { img: evidenceImg4, portrait: true, label: 'FILE-008', text: 'Classified. Access denied.' },
-    { img: evidenceImg1, label: 'FILE-009', text: 'File sealed. Awaiting authorisation.' },
-    { img: evidenceImg3, label: 'FILE-010', text: 'Content restricted to verified members.' },
+    { img: evidenceImg2, label: 'FILE-009', text: 'File sealed. Awaiting authorisation.' },
+    { img: evidenceImg4, label: 'FILE-010', text: 'Content restricted to verified members.' },
     { img: evidenceImg2, portrait: true, label: 'FILE-011', text: 'Elevate your clearance to unlock.' },
     { img: evidenceImg4, label: 'FILE-012', text: 'Undisclosed. Apply through the portal.' },
   ];
@@ -290,17 +227,17 @@ function Evidence() {
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3 mb-3">
         <div className="md:col-span-2">
-          <VideoCard src={backgroundVideo} label="FILE-001" text="Subject 04 — result confirmed. No explanation on record." />
+          <VideoCard src={backgroundVideo} label="FILE-001" text="Subject 04 — result confirmed. No explanation on record." onHover={onVideoHover} />
         </div>
         <div className="flex flex-col gap-3">
-          <VideoCard src={backgroundVideo} label="FILE-002" text="The margin was not human." />
-          <VideoCard src={backgroundVideo} label="FILE-003" text="Flawless execution. Every input accounted for." />
+          <VideoCard src={backgroundVideo} label="FILE-002" text="The margin was not human." onHover={onVideoHover} />
+          <VideoCard src={backgroundVideo} label="FILE-003" text="Flawless execution. Every input accounted for." onHover={onVideoHover} />
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <VideoCard src={backgroundVideo} label="FILE-004" text="They asked how. We stopped answering." />
-        <VideoCard src={backgroundVideo} label="FILE-005" text="Sequence complete. Outcome expected." />
-        <VideoCard src={backgroundVideo} label="FILE-006" text="On record. Uncontested." />
+        <VideoCard src={backgroundVideo} label="FILE-004" text="They asked how. We stopped answering." onHover={onVideoHover} />
+        <VideoCard src={backgroundVideo} label="FILE-005" text="Sequence complete. Outcome expected." onHover={onVideoHover} />
+        <VideoCard src={backgroundVideo} label="FILE-006" text="On record. Uncontested." onHover={onVideoHover} />
       </div>
 
       {/* Level 2 */}
@@ -311,25 +248,19 @@ function Evidence() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <EvidenceCard item={level2[0]} locked />
-        <EvidenceCard item={level2[1]} locked />
-        <EvidenceCard item={level2[2]} locked />
-        <EvidenceCard item={level2[3]} locked />
-        <EvidenceCard item={level2[4]} locked />
-        <EvidenceCard item={level2[5]} locked />
+        {level2.map((item, i) => <EvidenceCard key={i} item={item} locked />)}
       </div>
 
     </div>
   );
 }
 
+// --- Portal ---
 function Portal() {
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden bg-black text-white items-center justify-center">
       <div className="w-full max-w-sm p-8 border border-slate-900 bg-slate-950/50 backdrop-blur-md">
-        <h2 className="text-sm font-mono text-white tracking-[0.2em] uppercase mb-8 text-center">
-          Secure Link Authentication
-        </h2>
+        <h2 className="text-sm font-mono text-white tracking-[0.2em] uppercase mb-8 text-center">Secure Link Authentication</h2>
         <div className="space-y-6">
           <div className="space-y-2">
             <label className="text-[10px] text-slate-500 uppercase font-mono tracking-widest">Identifier</label>
@@ -348,15 +279,19 @@ function Portal() {
   );
 }
 
+// --- App root ---
 export default function App() {
+  const [cursorVisible, setCursorVisible] = useState(false);
+  const handleVideoHover = useCallback((active: boolean) => setCursorVisible(active), []);
+
   return (
     <HashRouter>
-      <div className="bg-black min-h-screen text-slate-300 selection:bg-[#ff33cc] selection:text-black" style={{ cursor: 'none' }}>
-        <CustomCursor />
+      <div className="bg-black min-h-screen text-slate-300 selection:bg-[#ff33cc] selection:text-black">
+        <CustomCursor visible={cursorVisible} />
         <Navigation />
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/evidence" element={<Evidence />} />
+          <Route path="/evidence" element={<Evidence onVideoHover={handleVideoHover} />} />
           <Route path="/portal" element={<Portal />} />
         </Routes>
       </div>
