@@ -4,6 +4,9 @@ import { Lock } from 'lucide-react';
 import backgroundVideo from './imports/KGDvF1UBHEry7.mp4';
 import file001 from './imports/file-001.mp4';
 import file002 from './imports/file-002.mp4';
+import file003 from './imports/file-003.mp4';
+import file004 from './imports/file-004.mp4';
+import file005 from './imports/file-005.mp4';
 import evidenceImg0 from './imports/image.png';
 import evidenceImg1 from './imports/image-1.png';
 import evidenceImg2 from './imports/image-2.png';
@@ -166,12 +169,12 @@ function Evidence({ onVideoHover }: { onVideoHover: (active: boolean) => void })
         </div>
         <div className="flex flex-col gap-3">
           <VideoCard src={file002} label="FILE-002" text="The margin was not human." onHover={onVideoHover} />
-          <VideoCard src={backgroundVideo} label="FILE-003" text="Flawless execution. Every input accounted for." onHover={onVideoHover} />
+          <VideoCard src={file003} label="FILE-003" text="Flawless execution. Every input accounted for." onHover={onVideoHover} />
         </div>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        <VideoCard src={backgroundVideo} label="FILE-004" text="They asked how. We stopped answering." onHover={onVideoHover} />
-        <VideoCard src={backgroundVideo} label="FILE-005" text="Sequence complete. Outcome expected." onHover={onVideoHover} />
+        <VideoCard src={file004} label="FILE-004" text="They asked how. We stopped answering." onHover={onVideoHover} />
+        <VideoCard src={file005} label="FILE-005" text="Sequence complete. Outcome expected." onHover={onVideoHover} />
         <VideoCard src={backgroundVideo} label="FILE-006" text="On record. Uncontested." onHover={onVideoHover} />
       </div>
       <div className="flex items-center gap-4 mt-20 mb-10">
