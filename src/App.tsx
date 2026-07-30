@@ -113,11 +113,25 @@ type EvidenceItem = { img: string; portrait?: boolean; label: string; text: stri
 function VideoCard({ src, portrait, label, text, onHover }: { src: string; portrait?: boolean; label: string; text: string; onHover: (active: boolean) => void; }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [active, setActive] = useState(false);
-  const unmute = () => { if (videoRef.current) videoRef.current.muted = false; setActive(true); onHover(true); };
-  const mute = () => { if (videoRef.current) videoRef.current.muted = true; setActive(false); onHover(false); };
-  const handleTap = (e: React.TouchEvent) => { e.preventDefault(); active ? mute() : unmute(); };
+  const activate = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      void videoRef.current.play().catch(() => {});
+    }
+    setActive(true);
+    onHover(true);
+  };
+  const deactivate = () => {
+    if (videoRef.current) {
+      videoRef.current.muted = true;
+      void videoRef.current.play().catch(() => {});
+    }
+    setActive(false);
+    onHover(false);
+  };
+  const handleTap = (e: React.TouchEvent) => { e.preventDefault(); active ? deactivate() : activate(); };
   return (
-    <div className="relative overflow-hidden border border-slate-900 bg-slate-950" style={{ cursor: 'none' }} onMouseEnter={unmute} onMouseLeave={mute} onTouchStart={handleTap}>
+    <div className="relative overflow-hidden border border-slate-900 bg-slate-950" style={{ cursor: 'none' }} onMouseEnter={activate} onMouseLeave={deactivate} onTouchStart={handleTap}>
       <div className={portrait ? 'aspect-[9/16]' : 'aspect-video'}>
         <video ref={videoRef} src={src} autoPlay loop muted playsInline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" className={`w-full h-full object-cover transition-opacity duration-500 ${active ? 'opacity-100' : 'opacity-20'}`} style={{ pointerEvents: 'none' }} />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
