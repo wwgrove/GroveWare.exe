@@ -12,6 +12,7 @@ import evidenceImg1 from './imports/image-1.png';
 import evidenceImg2 from './imports/image-2.png';
 import evidenceImg3 from './imports/image-3.png';
 import evidenceImg4 from './imports/image-4.png';
+import { SITE_LOGO_SRC } from './constants/assets';
 
 function CustomCursor({ visible }: { visible: boolean }) {
   const cursorRef = useRef<HTMLDivElement>(null);
@@ -34,7 +35,10 @@ function CustomCursor({ visible }: { visible: boolean }) {
 function Navigation() {
   return (
     <nav className="fixed top-0 left-0 w-full z-50 px-4 py-4 md:p-6 flex justify-between items-center mix-blend-difference text-slate-500 text-[9px] md:text-[10px] tracking-[0.2em] md:tracking-[0.3em] uppercase font-mono">
-      <NavLink to="/" className="hover:text-white transition-colors shrink-0">[ G R O V E W A R E ]</NavLink>
+      <NavLink to="/" className="hover:text-white transition-colors shrink-0 flex items-center gap-2">
+        <img src={SITE_LOGO_SRC} alt="GroveWare logo" className="w-4 h-4 object-contain" />
+        <span>[ G R O V E W A R E ]</span>
+      </NavLink>
       <div className="flex gap-4 md:gap-12">
         <NavLink to="/evidence" className={({ isActive }) => isActive ? "text-white" : "hover:text-slate-300 transition-colors"}>[ EVIDENCE ]</NavLink>
         <NavLink to="/portal" className={({ isActive }) => isActive ? "text-[#ff33cc]" : "hover:text-slate-300 transition-colors"}>[ PORTAL ]</NavLink>
