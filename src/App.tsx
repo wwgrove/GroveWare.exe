@@ -1,17 +1,11 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { HashRouter, Routes, Route, NavLink } from 'react-router';
-import { Lock } from 'lucide-react';
 import backgroundVideo from './imports/KGDvF1UBHEry7.mp4';
 import file001 from './imports/file-001.mp4';
 import file002 from './imports/file-002.mp4';
 import file003 from './imports/file-003.mp4';
 import file004 from './imports/file-004.mp4';
 import file005 from './imports/file-005.mp4';
-import evidenceImg0 from './imports/image.png';
-import evidenceImg1 from './imports/image-1.png';
-import evidenceImg2 from './imports/image-2.png';
-import evidenceImg3 from './imports/image-3.png';
-import evidenceImg4 from './imports/image-4.png';
 import { SITE_LOGO_SRC } from './constants/assets';
 
 function CustomCursor({ visible }: { visible: boolean }) {
@@ -102,13 +96,11 @@ function Home() {
         </div>
       </div>
       <footer className="absolute bottom-6 w-full text-center">
-        <p className="text-slate-600 text-[10px] tracking-[0.2em] uppercase font-mono">© 2026 GroveWare. All rights reserved.</p>
+        <a href="https://www.willwingrove.com/" target="_blank" rel="noreferrer" className="text-slate-600 text-[10px] tracking-[0.2em] uppercase font-mono hover:text-slate-300 transition-colors">© 2026 GroveWare. All rights reserved.</a>
       </footer>
     </div>
   );
 }
-
-type EvidenceItem = { img: string; portrait?: boolean; label: string; text: string };
 
 function VideoCard({ src, portrait, label, text, onHover }: { src: string; portrait?: boolean; label: string; text: string; onHover: (active: boolean) => void; }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -132,38 +124,11 @@ function VideoCard({ src, portrait, label, text, onHover }: { src: string; portr
   );
 }
 
-function EvidenceCard({ item, locked }: { item: EvidenceItem; locked?: boolean }) {
-  return (
-    <div className="relative overflow-hidden border border-slate-900 bg-slate-950 group">
-      <div className={item.portrait ? 'aspect-[9/16]' : 'aspect-video'}>
-        <img src={item.img} alt="" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]" style={locked ? { filter: 'blur(14px)', transform: 'scale(1.06)' } : {}} />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
-        <span className="absolute top-3 left-3 text-[8px] font-mono text-slate-700 tracking-[0.2em] uppercase">{item.label}</span>
-        {locked && (
-          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
-            <Lock className="w-4 h-4 text-slate-500" />
-            <span className="text-[8px] font-mono text-slate-500 uppercase tracking-[0.2em] text-center leading-loose">Level 2 Clearance<br/>Required</span>
-          </div>
-        )}
-        <p className="absolute bottom-3 left-3 right-3 text-[9px] font-mono text-slate-500 uppercase tracking-[0.1em] leading-relaxed">{item.text}</p>
-      </div>
-    </div>
-  );
-}
-
 function Evidence({ onVideoHover }: { onVideoHover: (active: boolean) => void }) {
-  const level2: EvidenceItem[] = [
-    { img: evidenceImg0, label: 'FILE-007', text: 'Session redacted. Clearance required.' },
-    { img: evidenceImg1, portrait: true, label: 'FILE-008', text: 'Classified. Access denied.' },
-    { img: evidenceImg2, label: 'FILE-009', text: 'File sealed. Awaiting authorisation.' },
-    { img: evidenceImg3, label: 'FILE-010', text: 'Content restricted to verified members.' },
-    { img: evidenceImg4, portrait: true, label: 'FILE-011', text: 'Elevate your clearance to unlock.' },
-    { img: evidenceImg0, label: 'FILE-012', text: 'Undisclosed. Apply through the portal.' },
-  ];
   return (
     <div className="bg-black min-h-screen pt-28 pb-32 px-6 md:px-12 lg:px-20">
       <div className="flex items-center gap-4 mb-10">
-        <span className="text-slate-700 text-[9px] font-mono uppercase tracking-[0.3em] shrink-0">Level 1</span>
+        <span className="text-slate-700 text-[9px] font-mono uppercase tracking-[0.3em] shrink-0">Main Access</span>
         <div className="flex-1 h-px bg-slate-900" />
         <span className="text-slate-700 text-[9px] font-mono uppercase tracking-[0.3em] shrink-0">Open Access</span>
       </div>
@@ -176,18 +141,9 @@ function Evidence({ onVideoHover }: { onVideoHover: (active: boolean) => void })
           <VideoCard src={file003} label="FILE-003" text="Flawless execution. Every input accounted for." onHover={onVideoHover} />
         </div>
       </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <VideoCard src={file004} label="FILE-004" text="They asked how. We stopped answering." onHover={onVideoHover} />
         <VideoCard src={file005} label="FILE-005" text="Sequence complete. Outcome expected." onHover={onVideoHover} />
-        <VideoCard src={backgroundVideo} label="FILE-006" text="On record. Uncontested." onHover={onVideoHover} />
-      </div>
-      <div className="flex items-center gap-4 mt-20 mb-10">
-        <span className="text-[#ff33cc]/30 text-[9px] font-mono uppercase tracking-[0.3em] shrink-0">Level 2</span>
-        <div className="flex-1 h-px bg-slate-900" />
-        <span className="text-[#ff33cc]/30 text-[9px] font-mono uppercase tracking-[0.3em] shrink-0">Restricted</span>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-        {level2.map((item, i) => <EvidenceCard key={i} item={item} locked />)}
       </div>
     </div>
   );
